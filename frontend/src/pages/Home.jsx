@@ -26,7 +26,7 @@ const Home = () => {
     };
 
     fetchWorkouts();
-  }, [dispatch]);
+  }, [dispatch, workouts]);
   return (
     <>
       <h2>Homeee</h2>
