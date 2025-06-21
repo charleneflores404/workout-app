@@ -6,7 +6,8 @@ const WorkoutForm = () => {
   const [title, setTitle] = useState("");
   const [load, setLoad] = useState("");
   const [reps, setReps] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent default action (refresh page) upon submit
@@ -24,11 +25,13 @@ const WorkoutForm = () => {
 
     if (!response.ok) {
       setError(json.error);
+      setEmptyFields(json.emptyFields);
     } else {
       setTitle("");
       setLoad("");
       setReps("");
       setError(null);
+      setEmptyFields([]);
       console.log("New workout added");
       dispatch({ type: "CREATE_WORKOUT", payload: json });
     }
