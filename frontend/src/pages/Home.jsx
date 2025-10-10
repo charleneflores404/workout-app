@@ -28,17 +28,19 @@ const Home = () => {
     fetchWorkouts();
   }, [dispatch, workouts]);
   return (
-    <>
-      <h2>Homeee</h2>
-      {workouts &&
-        workouts.map((workout) => (
-          <>
+    <div className="home">
+      {/* <h2>Homeee</h2> */}
+      <div className="workouts">
+        {workouts &&
+          workouts.map((workout) => (
+            // <>
             <WorkoutDetails key={workout._id} workout={workout} />
-            <br />
-          </>
-        ))}
+            // <br />
+            // </>
+          ))}
+      </div>
       <WorkoutForm />
-    </>
+    </div>
   );
 };
 
