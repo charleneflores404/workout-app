@@ -4,9 +4,11 @@ import { useEffect } from "react";
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
   const { workouts, dispatch } = useWorkoutsContext();
+  const { user } = useAuthContext();
 
   // recall: empty dep array means the useEffect will only fire once
   // we have the async function inside the useEffect function
@@ -17,7 +19,9 @@ const Home = () => {
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch("/api/workouts");
+      const response = await fetch("/api/workouts", {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       const json = await response.json();
 
       if (response.ok) {
@@ -25,8 +29,10 @@ const Home = () => {
       }
     };
 
-    fetchWorkouts();
-  }, [dispatch, workouts]);
+    if (user) {
+      fetchWorkouts();
+    }
+  }, [dispatch, workouts, user]);
   return (
     <div className="home">
       {/* <h2>Homeee</h2> */}
