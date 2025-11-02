@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 // .find({}) is empty because we want all of it, otherwise we will use a filter
 // we want to sort where the most recently created are at the top of results (desc is -1)
 const getWorkouts = async (req, res) => {
-  const workouts = await Workout.find({}).sort({ createdAt: -1 });
+  const user_id = req.user._id;
+  const workouts = await Workout.find({ user_id }).sort({ createdAt: -1 });
 
   res.status(200).json(workouts);
 };
@@ -33,7 +34,7 @@ const getWorkout = async (req, res) => {
 const createWorkout = async (req, res) => {
   const { title, load, reps } = req.body;
 
-  const emptyFields = [];
+  let emptyFields = [];
 
   if (!title) {
     emptyFields.push('title');
@@ -47,13 +48,14 @@ const createWorkout = async (req, res) => {
 
   if (emptyFields.length > 0) {
     return res
-      .status(300)
+      .status(400)
       .json({ error: 'Please fill in all the fields.', emptyFields });
   }
 
   // add doc to db
   try {
-    const workout = await Workout.create({ title, load, reps });
+    const user_id = req.user._id;
+    const workout = await Workout.create({ title, load, reps, user_id });
     res.status(200).json(workout);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -71,7 +73,7 @@ const deleteWorkout = async (req, res) => {
   const workout = await Workout.findOneAndDelete({ _id: id });
 
   if (!workout) {
-    return res.status(404).json({ error: 'No such workout' });
+    return res.status(400).json({ error: 'No such workout' });
   }
 
   res.status(200).json(workout);
