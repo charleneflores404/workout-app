@@ -32,7 +32,9 @@ app.use(
         callback(new Error('CORS not allowed for this origin'));
       }
     },
-    // credentials: true // if using cookies or sessions
+    credentials: true, // if using cookies or sessions
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // any headers you send
   })
 );
 
