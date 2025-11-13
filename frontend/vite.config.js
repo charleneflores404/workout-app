@@ -11,12 +11,12 @@ export default defineConfig({
     // proxy: {
     //   "/api": "http://localhost:4000", // Proxy API requests to backend server
     // },
-    proxy: {
-      "/api": {
-        target: "http://localhost:4000",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
+    // proxy: { // remove proxywhen production ready. use .env instead for API_URL
+    //   "/api": {
+    //     target: "http://localhost:4000",
+    //     changeOrigin: true,
+    //     secure: false,
+    //   },
+    // },
   },
 });
