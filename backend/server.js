@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const healthRoutes = require('./routes/health');
 const workoutRoutes = require('./routes/workouts');
 const userRoutes = require('./routes/user');
 
@@ -45,6 +46,7 @@ app.use(
 // });
 
 // routes
+app.use('/health', healthRoutes); // Ping backend, to pre-warm as Render has cold start
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/user', userRoutes);
 
