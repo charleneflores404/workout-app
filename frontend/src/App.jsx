@@ -7,9 +7,11 @@ import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 
 import { useAuthContext } from "./hooks/useAuthContext";
+import { useHealthPing } from "./hooks/useHealthPing";
 
 function App() {
   const { user } = useAuthContext();
+  useHealthPing();
 
   return (
     <div className="App">
